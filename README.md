@@ -1,1 +1,1 @@
-Todo app using Clean MVVM architecture.
+Todo app following the Clean MVVM architecture.
