@@ -32,7 +32,9 @@ fun BottomNavBar(navHostController: NavHostController) {
                     }
                 },
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title)  },
-                label = { Text(text = item.title) })
+                label = { Text(text = item.title) },
+                alwaysShowLabel = false)
+
         }
     }
 }
