@@ -4,14 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.lorrainedianne.memobly.presentation.feature.notes.NotesScreen
+import androidx.navigation.compose.rememberNavController
+import com.lorrainedianne.memobly.presentation.feature.main.MainScreen
 import com.lorrainedianne.memobly.presentation.theme.MemoblyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,28 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MemoblyTheme {
+                val navHostController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppContent()
+                    MainScreen(navHostController = navHostController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun AppContent(modifier: Modifier = Modifier) {
-    Scaffold(bottomBar = {}, content = { innerPadding ->
-        NotesScreen(modifier = Modifier.padding(innerPadding))
-    })
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MemoblyTheme {
-        AppContent()
     }
 }

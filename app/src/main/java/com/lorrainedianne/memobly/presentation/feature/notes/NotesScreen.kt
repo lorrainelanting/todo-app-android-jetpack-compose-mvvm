@@ -1,5 +1,6 @@
 package com.lorrainedianne.memobly.presentation.feature.notes
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -15,15 +16,42 @@ import com.lorrainedianne.memobly.domain.model.Note
 @Composable
 fun NotesScreen(notesVm: NotesViewModel = hiltViewModel(), modifier: Modifier) {
     val notesState by notesVm.uiState.collectAsState()
-    val data: List<Note> = notesVm.notesFlowData.collectAsState(initial = listOf()).value
 
     LaunchedEffect(Unit) {
-        notesVm.onStart()
+        notesVm.onEvent(NotesEventType.Start)
     }
 
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(data.size) {index ->
-            data[index].title?.let { Text(text = it) }
+    when(notesState) {
+        is NotesState.Loading -> {
+            Text(text = "Loading...")
+        }
+        is NotesState.FinishLoading -> {
+            Column {
+                Text(text = "Finish loading")
+                NoteList(notesVm)
+            }
+        }
+        is NotesState.Error -> {
+            Text(text = (notesState as NotesState.Error).message)
+        }
+        is NotesState.Start -> {
+            Text(text = "Start")
+        }
+    }
+
+}
+
+@Composable
+fun NoteList(vm: NotesViewModel) {
+    val data: List<Note> = vm.notesFlowData.collectAsState(initial = listOf()).value
+
+    if (data.isEmpty()) {
+        Text(text = "Note list is empty")
+    } else {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(data.size) {index ->
+                data[index].title?.let { Text(text = it) }
+            }
         }
     }
 }
