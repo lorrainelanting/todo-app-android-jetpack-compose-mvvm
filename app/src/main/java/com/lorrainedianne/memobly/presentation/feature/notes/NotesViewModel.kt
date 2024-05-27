@@ -17,7 +17,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel @Inject constructor(private val getNotesUseCase: GetNotesUseCase) :
+class NotesViewModel @Inject constructor(
+    private val getNotesUseCase: GetNotesUseCase
+) :
     ViewModel(), BaseViewModel<NotesEventType> {
 
     var notesFlowData: Flow<List<Note>> = emptyFlow()
@@ -54,7 +56,6 @@ class NotesViewModel @Inject constructor(private val getNotesUseCase: GetNotesUs
     }
 
     private fun onStart() {
-        _uiState.value = NotesState.Start
         fetchData()
     }
 
@@ -63,6 +64,7 @@ class NotesViewModel @Inject constructor(private val getNotesUseCase: GetNotesUs
             is NotesEventType.Start -> {
                 onStart()
             }
+
             is NotesEventType.Error -> {
 
             }
