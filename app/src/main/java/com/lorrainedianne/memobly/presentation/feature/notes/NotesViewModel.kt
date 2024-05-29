@@ -8,10 +8,8 @@ import com.lorrainedianne.memobly.presentation.feature.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,8 +19,8 @@ class NotesViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase
 ) :
     ViewModel(), BaseViewModel<NotesEventType> {
-
-    var notesFlowData: Flow<List<Note>> = emptyFlow()
+    private val _notesFlow: MutableStateFlow<List<Note>> = MutableStateFlow(emptyList())
+    var notesFlow: StateFlow<List<Note>> = _notesFlow
     private val _uiState: MutableStateFlow<NotesState> = MutableStateFlow(NotesState.Start)
     val uiState: StateFlow<NotesState> = _uiState
 
@@ -32,13 +30,15 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    notesFlowData = getNotesUseCase.invoke()
+                    getNotesUseCase.invoke().collect {
+                        _notesFlow.value = it
 
-                    delay(1000)
-                    withContext(Dispatchers.Main) {
-                        onFetchSuccess()
+                        delay(1000)
+
+                        withContext(Dispatchers.Main) {
+                            onFetchSuccess()
+                        }
                     }
-
                 } catch (error: Exception) {
                     _uiState.value = NotesState.Error(error.message.toString())
                     onFetchFailed(error.message.toString())

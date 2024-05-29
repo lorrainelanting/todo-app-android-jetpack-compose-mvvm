@@ -1,6 +1,5 @@
 package com.lorrainedianne.memobly.presentation.route
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -16,13 +15,11 @@ fun NavigationComponent(
     navController: NavHostController,
     mainVM: MainViewModel,
     modifier: Modifier,
-    setFabOnClick: ((() -> Unit)?) -> Unit,
-    setOnBackPressed: ((() -> Unit)?) -> Unit
+    setFabOnClick: ((() -> Unit)?) -> Unit
 ) {
 
     NavHost(navController = navController, startDestination = Route.Notes.path) {
         composable(Route.Notes.path) {
-            Log.d("NAVIGATE_TO", "NavHost.NotesScreen")
             NotesScreen(
                 mainViewModel = mainVM,
                 modifier = modifier,
@@ -36,11 +33,9 @@ fun NavigationComponent(
 //            ProfileScreen()
         }
         composable(Route.NoteItem.path) {
-            Log.d("NAVIGATE_TO", "NavHost.NoteItemScreen")
             NoteItemScreen(
                 modifier = modifier,
-                mainViewModel = mainVM,
-                onBackPressed = setOnBackPressed
+                mainViewModel = mainVM
             )
         }
     }

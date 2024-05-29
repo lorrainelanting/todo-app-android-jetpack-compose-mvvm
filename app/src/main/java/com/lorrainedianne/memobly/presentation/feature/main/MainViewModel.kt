@@ -32,11 +32,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun onPopBackStack(previousRoute: Route) {
+    private fun onPopBackStack(previousRoute: Route?) {
         Log.d("NAVIGATE_TO", "MainVM.onPopBackStack $previousRoute")
-        // don't confuse with currentRoute
-        navManager.currentRoute()?.let {
-        }
+
     }
 
     private fun onNavigateToBottomNav(route: String) {
@@ -84,7 +82,9 @@ class MainViewModel @Inject constructor(
                 onNavigateToBottomNav(type.route)
             }
 
-            is MainEventType.PopBackStack -> TODO()
+            is MainEventType.PopBackStack -> {
+                onPopBackStack(type.prevRoute)
+            }
 
             is MainEventType.Start -> {
                 onStart()

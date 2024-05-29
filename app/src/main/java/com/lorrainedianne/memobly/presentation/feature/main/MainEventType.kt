@@ -1,10 +1,11 @@
 package com.lorrainedianne.memobly.presentation.feature.main
 
 import com.lorrainedianne.memobly.presentation.feature.base.BaseEvent
+import com.lorrainedianne.memobly.presentation.route.Route
 
 sealed class MainEventType: BaseEvent() {
     data object Start: MainEventType()
-    data object PopBackStack: MainEventType()
+    data class PopBackStack(val prevRoute: Route?): MainEventType()
     data object NavigateToNotes: MainEventType()
     data object NavigateToCalendar: MainEventType()
     data object NavigateToProfile: MainEventType()

@@ -124,6 +124,10 @@ class NavManager {
 
     }
 
+    fun pop(): Boolean {
+        return navController?.popBackStack() ?: false
+    }
+
     fun currentDestination(): NavDestination? {
         return navController?.currentDestination
     }
