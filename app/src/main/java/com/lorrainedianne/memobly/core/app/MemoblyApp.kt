@@ -1,4 +1,4 @@
-package com.lorrainedianne.memobly.app
+package com.lorrainedianne.memobly.core.app
 
 import android.app.Application
 import com.lorrainedianne.memobly.data.dataSource.db.AppRoomDatabase
