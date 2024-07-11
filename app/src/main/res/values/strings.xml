@@ -4,6 +4,8 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="warning">Warning</string>
+    <string name="title">Title</string>
+    <string name="start_typing">Start typing</string>
     <!--  Icon content description.  -->
     <string name="icon_warning">Warning icon</string>
 

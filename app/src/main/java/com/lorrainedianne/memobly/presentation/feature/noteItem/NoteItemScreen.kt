@@ -19,15 +19,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lorrainedianne.memobly.R
 import com.lorrainedianne.memobly.presentation.dialog.ConfirmationDialog
-import com.lorrainedianne.memobly.presentation.feature.main.MainViewModel
 
 /** Screen for creating a note. **/
 @Composable
 fun NoteItemScreen(
     modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel
+    noteItemVM: NoteItemViewModel = hiltViewModel()
 ) {
-    val noteItemVM: NoteItemViewModel = hiltViewModel()
     val noteItemState by noteItemVM.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -90,7 +88,7 @@ private fun Title(viewModel: NoteItemViewModel, modifier: Modifier) {
     TextField(
         value = viewModel.titleState.value,
         onValueChange = { viewModel.onEvent(NoteItemEventType.TitleChanged(it)) },
-        placeholder = { Text(text = "Title") },
+        placeholder = { Text(text = stringResource(id = R.string.title)) },
         modifier = modifier.fillMaxWidth(),
         textStyle = TextStyle(fontWeight = FontWeight.SemiBold)
     )
@@ -101,7 +99,7 @@ private fun Content(viewModel: NoteItemViewModel, modifier: Modifier) {
     TextField(
         value = viewModel.contentState.value,
         onValueChange = { viewModel.onEvent(NoteItemEventType.ContentChanged(it)) },
-        placeholder = { Text(text = "Start typing") },
+        placeholder = { Text(text = stringResource(id = R.string.start_typing)) },
         modifier = modifier.fillMaxSize()
     )
 }
