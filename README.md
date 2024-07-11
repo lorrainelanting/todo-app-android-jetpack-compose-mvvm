@@ -1,7 +1,7 @@
 # Memobly
 Memobly is a memo/note-taking/todo app.
 
-*Note*: This is an ongoing demo project. I am updating it usually every week.
+*Note*: This is an ongoing demo project.
 
 ## Architecture Pattern
 - Clean MVVM (Model-View-ViewModel)
