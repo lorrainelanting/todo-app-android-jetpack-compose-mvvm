@@ -28,7 +28,7 @@ class NoteRepositoryImpl @Inject constructor(private val datasource: NoteDao) : 
     }
 
     @Throws
-    override suspend fun getNote(id: String): Note {
+    override suspend fun getNote(id: Long): Note {
         try {
             return datasource.getNote(id)
         } catch (error: Exception) {
@@ -40,6 +40,7 @@ class NoteRepositoryImpl @Inject constructor(private val datasource: NoteDao) : 
     @Throws
     override suspend fun edit(note: Note) {
         try {
+            Log.d("DATA_DEBUG", "REPO EDIT NOTE = $note")
             return datasource.update(note)
         } catch (error: Exception) {
             Log.d("EDIT_NOTE_ERROR", error.message.toString())
@@ -58,7 +59,7 @@ class NoteRepositoryImpl @Inject constructor(private val datasource: NoteDao) : 
     }
 
     @Throws
-    override suspend fun permanentDelete(id: String) {
+    override suspend fun permanentDelete(id: Long) {
         try {
             return datasource.delete(id)
         } catch (error: Exception) {
