@@ -35,9 +35,12 @@ class NavManager {
         this.navController = navController
 
         scope.launch {
-            navController.currentBackStackEntryFlow.collect{
-                Log.d("NAVIGATE_TO", "NavMgr.currentBackStackEntryFlow.collect ${it.destination.route}")
-                lastDestination?.let {lastDestination ->
+            navController.currentBackStackEntryFlow.collect {
+                Log.d(
+                    "NAVIGATE_TO",
+                    "NavMgr.currentBackStackEntryFlow.collect ${it.destination.route}"
+                )
+                lastDestination?.let { lastDestination ->
                     onPopBackStack(lastDestination)
                 }
                 lastDestination = it.destination.route
@@ -85,8 +88,8 @@ class NavManager {
         }
     }
 
-    fun navigateToNoteItem() {
-        navController?.navigate(Route.NoteItem.path)
+    fun navigateToNoteItem(id: Long) {
+        navController?.navigate("${Route.NoteItem.path}/$id")
     }
 
     fun navigateToNotes() {
@@ -102,25 +105,29 @@ class NavManager {
     }
 
     private suspend fun onPopBackStack(route: String) {
-            Log.d("NAVIGATE_TO", "NavMgr.onPopBackStack $route")
+        Log.d("NAVIGATE_TO", "NavMgr.onPopBackStack $route")
 
-            when (route) {
-                Route.Notes.path -> {
-                    _lastPoppedRoute.emit(Route.Notes)
-                }
+        if (route == "${Route.NoteItem.path}/{noteId}") {
+            _lastPoppedRoute.emit(Route.NoteItem)
+        }
 
-                Route.Calendar.path -> {
-                    _lastPoppedRoute.emit(Route.Calendar)
-                }
-
-                Route.Profile.path -> {
-                    _lastPoppedRoute.emit(Route.Profile)
-                }
-
-                Route.NoteItem.path -> {
-                    _lastPoppedRoute.emit(Route.NoteItem)
-                }
-            }
+//        when (route) {
+//            Route.Notes.path -> {
+//                _lastPoppedRoute.emit(Route.Notes)
+//            }
+//
+//            Route.Calendar.path -> {
+//                _lastPoppedRoute.emit(Route.Calendar)
+//            }
+//
+//            Route.Profile.path -> {
+//                _lastPoppedRoute.emit(Route.Profile)
+//            }
+//
+//            Route.NoteItem.path -> {
+//                Log.d("NAVIGATE_TO", "Last popped route = ${Route.NoteItem.path}")
+//            }
+//        }
 
     }
 
@@ -136,7 +143,7 @@ class NavManager {
         navController?.currentDestination?.route?.let { route ->
             when (route) {
                 Route.Notes.path -> {
-                   return Route.Notes
+                    return Route.Notes
                 }
 
                 Route.Calendar.path -> {
@@ -151,7 +158,9 @@ class NavManager {
                     return Route.NoteItem
                 }
 
-                else -> {return null}// THROW
+                else -> {
+                    return null
+                }// THROW
             }
         }
         return null
