@@ -9,6 +9,6 @@ sealed class MainEventType: BaseEvent() {
     data object NavigateToNotes: MainEventType()
     data object NavigateToCalendar: MainEventType()
     data object NavigateToProfile: MainEventType()
-    data class NavigateToNoteItem(val id: String? = null): MainEventType()
+    data class NavigateToNoteItem(val id: Long): MainEventType()
     data class NavigateToBottomNav(val route: String): MainEventType()
 }

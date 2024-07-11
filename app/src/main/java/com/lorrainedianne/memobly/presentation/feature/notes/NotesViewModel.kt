@@ -1,10 +1,13 @@
 package com.lorrainedianne.memobly.presentation.feature.notes
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lorrainedianne.memobly.domain.model.Note
 import com.lorrainedianne.memobly.domain.useCase.note.GetNotesUseCase
 import com.lorrainedianne.memobly.presentation.feature.base.BaseViewModel
+import com.lorrainedianne.memobly.presentation.route.NavManager
+import com.lorrainedianne.memobly.presentation.route.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -16,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val getNotesUseCase: GetNotesUseCase
+    private val getNotesUseCase: GetNotesUseCase,
+    private val navManager: NavManager
 ) :
     ViewModel(), BaseViewModel<NotesEventType> {
     private val _notesFlow: MutableStateFlow<List<Note>> = MutableStateFlow(emptyList())
@@ -33,7 +37,7 @@ class NotesViewModel @Inject constructor(
                     getNotesUseCase.invoke().collect {
                         _notesFlow.value = it
 
-                        delay(1000)
+                        delay(3000)
 
                         withContext(Dispatchers.Main) {
                             onFetchSuccess()
@@ -57,6 +61,29 @@ class NotesViewModel @Inject constructor(
 
     private fun onStart() {
         fetchData()
+
+        viewModelScope.launch {
+            navManager.lastPoppedRoute.collect { route ->
+                route?.let {
+                    onPopBackStack(it)
+                }
+            }
+        }
+    }
+
+    private fun onPopBackStack(previousRoute: Route?) {
+        Log.d("NAVIGATE_TO", "NotesVM.onPopBackStack $previousRoute")
+        if (previousRoute == Route.NoteItem) {
+            onPopNoteItem()
+        }
+    }
+
+    private fun onPopNoteItem() {
+        Log.d("NAVIGATE_TO", "NotesVM POP_TO_NOTE_ITEM")
+        fetchData()
+    }
+    private fun onNavigateToNoteItem(id: Long) {
+        navManager.navigateToNoteItem(id)
     }
 
     override fun onEvent(type: NotesEventType) {
@@ -67,6 +94,10 @@ class NotesViewModel @Inject constructor(
 
             is NotesEventType.Error -> {
 
+            }
+
+            is NotesEventType.NavigateToNoteItem -> {
+                onNavigateToNoteItem(type.id)
             }
         }
     }

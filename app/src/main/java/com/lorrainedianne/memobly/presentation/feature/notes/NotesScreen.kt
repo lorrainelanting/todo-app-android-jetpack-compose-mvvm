@@ -2,6 +2,7 @@ package com.lorrainedianne.memobly.presentation.feature.notes
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +40,7 @@ fun NotesScreen(
         notesVm.onEvent(NotesEventType.Start)
 
         onClickFab {
-            mainViewModel.onEvent(MainEventType.NavigateToNoteItem())
+            mainViewModel.onEvent(MainEventType.NavigateToNoteItem(-1L))
         }
     }
 
@@ -85,20 +86,25 @@ fun NoteList(vm: NotesViewModel, modifier: Modifier) {
         LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
             items(data.size) { index ->
                 val note: Note = data[index]
-                NoteItem(note)
+                NoteItem(note, onItemClick = {
+                    vm.onEvent(NotesEventType.NavigateToNoteItem(note.id))
+                })
             }
         }
     }
 }
 
 @Composable
-fun NoteItem(note: Note) {
+fun NoteItem(note: Note, onItemClick: (Note) -> Unit) {
     Column(
         modifier = Modifier
             .background(Purple80)
             .height(50.dp)
             .padding(vertical = 4.dp)
             .fillMaxWidth()
+            .clickable {
+                onItemClick(note)
+            }
     ) {
         Text(
             text = note.title ?: "",

@@ -54,9 +54,8 @@ class MainViewModel @Inject constructor(
         navManager.navigateToProfile()
     }
 
-    private fun onNavigateToNoteItemScreen(id: String? = null) {
-        navManager.navigateToNoteItem()
-        Log.d("NAVIGATE_TO", "onNavigateToNoteItemScreen")
+    private fun onNavigateToNoteItemScreen(id: Long) {
+        navManager.navigateToNoteItem(id)
     }
 
     override fun onEvent(type: MainEventType) {
