@@ -18,13 +18,11 @@ class Note : Base() {
             type: String
         ): Note {
             val noteEntity = Note()
-
             noteEntity.id = id
             noteEntity.title = title
             noteEntity.note = note
             noteEntity.isCompleted = isCompleted
             noteEntity.type = type
-
             return noteEntity
         }
     }
