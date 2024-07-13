@@ -40,13 +40,18 @@ android {
         }
     }
 
+    flavorDimensions += "version"
     productFlavors {
         create("demo") {
+            dimension = "version"
             applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
         }
 
         create("full") {
+            dimension = "version"
             applicationIdSuffix = ".full"
+            versionNameSuffix = "-full"
         }
     }
     compileOptions {
@@ -73,6 +78,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
     val hiltVersion = "2.48"
     val roomVersion = "2.6.1"
     val workVersion = "2.7.1"
@@ -105,6 +112,8 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:$workVersion")
 
     implementation("com.google.code.gson:gson:2.10.1")
+
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
