@@ -23,12 +23,30 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
+            isShrinkResources = false
+            isDebuggable = true
+        }
+
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    productFlavors {
+        create("demo") {
+            applicationIdSuffix = ".demo"
+        }
+
+        create("full") {
+            applicationIdSuffix = ".full"
         }
     }
     compileOptions {
