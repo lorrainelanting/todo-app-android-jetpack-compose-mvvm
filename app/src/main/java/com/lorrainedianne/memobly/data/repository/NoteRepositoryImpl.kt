@@ -5,8 +5,6 @@ import com.lorrainedianne.memobly.data.dataSource.db.dao.NoteDao
 import com.lorrainedianne.memobly.domain.model.Note
 import com.lorrainedianne.memobly.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,13 +12,9 @@ import javax.inject.Singleton
 class NoteRepositoryImpl @Inject constructor(private val datasource: NoteDao) : NoteRepository {
 
     @Throws
-    override suspend fun getNotes(): Flow<List<Note>> {
+    override suspend fun getAllNotes(): Flow<List<Note>> {
         try {
-            val notesFlow = flow {
-                this.emitAll(datasource.getNotes())
-            }
-
-            return notesFlow
+            return datasource.getNotes()
         } catch (error: Exception) {
             Log.d("GET_NOTES_ERROR", error.message.toString())
             throw Exception("Get notes DAO error.")
@@ -28,7 +22,7 @@ class NoteRepositoryImpl @Inject constructor(private val datasource: NoteDao) : 
     }
 
     @Throws
-    override suspend fun getNote(id: Long): Note {
+    override suspend fun getOneNote(id: Long): Note {
         try {
             return datasource.getNote(id)
         } catch (error: Exception) {

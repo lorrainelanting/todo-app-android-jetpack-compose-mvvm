@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class GetNoteUseCase @Inject constructor(private val repository: NoteRepository) {
     suspend operator fun invoke(id: Long): Note {
-        return repository.getNote(id)
+        return repository.getOneNote(id)
     }
 }

@@ -4,8 +4,8 @@ import com.lorrainedianne.memobly.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
-    suspend fun getNotes(): Flow<List<Note>>
-    suspend fun getNote(id: Long): Note
+    suspend fun getAllNotes(): Flow<List<Note>>
+    suspend fun getOneNote(id: Long): Note
     suspend fun edit(note: Note)
     suspend fun save(note: Note)
     suspend fun permanentDelete(id: Long)
