@@ -22,7 +22,7 @@ class AppBarViewModel @Inject constructor(private val navManager: NavManager) : 
     fun isNoteItemTopBarVisible(): Boolean {
         val noteItemRoute = Route.NoteItem.path
 
-        return navManager.currentRoute()?.path == Route.NoteItem.path
+        return navManager.currentRoute()?.path == noteItemRoute
     }
 
     override fun onEvent(type: AppBarEventType) {

@@ -12,6 +12,7 @@ import com.lorrainedianne.memobly.presentation.feature.calendar.CalendarScreen
 import com.lorrainedianne.memobly.presentation.feature.main.MainViewModel
 import com.lorrainedianne.memobly.presentation.feature.noteItem.NoteItemScreen
 import com.lorrainedianne.memobly.presentation.feature.notes.NotesScreen
+import com.lorrainedianne.memobly.presentation.feature.profile.ProfileScreen
 
 @Composable
 fun NavigationComponent(
@@ -33,7 +34,7 @@ fun NavigationComponent(
             CalendarScreen(onClickFab = setFabOnClick)
         }
         composable(Route.Profile.path) {
-//            ProfileScreen()
+            ProfileScreen()
         }
         composable("${Route.NoteItem.path}/{noteId}",
             arguments = listOf(navArgument(name = "noteId") {

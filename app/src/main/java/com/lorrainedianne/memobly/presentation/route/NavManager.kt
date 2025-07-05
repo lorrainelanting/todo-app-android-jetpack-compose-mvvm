@@ -154,7 +154,7 @@ class NavManager {
                     return Route.Profile
                 }
 
-                Route.NoteItem.path -> {
+                "${Route.NoteItem.path}/{noteId}" -> {
                     return Route.NoteItem
                 }
 
